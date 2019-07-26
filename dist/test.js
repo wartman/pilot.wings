@@ -131,28 +131,28 @@ Test.main = function() {
 			return false;
 		}
 	}).join(" ");
-	var props5 = { style : name2 == "" ? null : name2, onClick : function(_) {
+	var props11 = { style : name2 == "" ? null : name2, onClick : function(_) {
 		props_requestClose();
 		return;
 	}, children : [this1]};
-	var props6 = { target : props3, child : pilot__$VNode_VNode_$Impl_$._new({ name : "div", style : props5.style, props : { onClick : props5.onClick}, hooks : { attach : props5.onAttach, detach : props5.onDetach}, children : props5.children})};
-	pilot_wings_PortalTarget.insertInto(props6.target,props6.child);
+	var props5 = { target : props3, child : pilot__$VNode_VNode_$Impl_$._new({ name : "div", style : props11.style, props : { onClick : props11.onClick}, hooks : { attach : props11.onAttach, detach : props11.onDetach}, children : props11.children})};
+	pilot_wings_PortalTarget.insertInto(props5.target,props5.child);
 	var this2 = pilot__$VNode_VNode_$Impl_$._new({ name : "[placeholder]", props : { }, type : pilot_VNodeType.VNodePlaceholder});
 	this2.hooks.attach = function(vn) {
-		if(props6.onAttach != null) {
-			props6.onAttach(vn);
+		if(props5.onAttach != null) {
+			props5.onAttach(vn);
 		}
 		return;
 	};
 	this2.hooks.detach = function() {
-		pilot_wings_PortalTarget.clear(props6.target);
-		if(props6.onDetach != null) {
-			props6.onDetach();
+		pilot_wings_PortalTarget.clear(props5.target);
+		if(props5.onDetach != null) {
+			props5.onDetach();
 		}
 		return;
 	};
-	var props7 = { children : [props,this2]};
-	pilot_Differ.patch(root,pilot__$VNode_VNode_$Impl_$._new({ name : "div", style : props7.style, props : { onClick : props7.onClick}, hooks : { attach : props7.onAttach, detach : props7.onDetach}, children : props7.children}));
+	var props6 = { children : [props,this2]};
+	pilot_Differ.patch(root,pilot__$VNode_VNode_$Impl_$._new({ name : "div", style : props6.style, props : { onClick : props6.onClick}, hooks : { attach : props6.onAttach, detach : props6.onDetach}, children : props6.children}));
 };
 var haxe_ds_StringMap = function() {
 	this.h = { };
@@ -300,6 +300,16 @@ pilot_Differ.patch = function(node,vnode) {
 	node["__vnode"] = vnode;
 	return vnode;
 };
+pilot_Differ.subPatch = function(vnode,newVNode) {
+	pilot_Differ.patchNode(vnode.node,vnode.node,vnode,newVNode,false);
+	vnode.name = newVNode.name;
+	vnode.key = newVNode.key;
+	vnode.style = newVNode.style;
+	vnode.props = newVNode.props;
+	vnode.children = newVNode.children;
+	vnode.type = newVNode.type;
+	vnode.hooks = newVNode.hooks;
+};
 pilot_Differ.patchNode = function(parent,node,oldVNode,newVNode,isSvg) {
 	if(oldVNode != null) {
 		newVNode = oldVNode.hooks.willPatch != null ? oldVNode.hooks.willPatch(newVNode) : newVNode;
@@ -383,7 +393,7 @@ pilot_Differ.patchNode = function(parent,node,oldVNode,newVNode,isSvg) {
 					oldVChild = oldVChildren[oldHead];
 					oldKey = pilot_Differ.getKey(oldVChild);
 					newKey = pilot_Differ.getKey(newVChildren[newHead]);
-					if(newKeyed[oldKey] != null || newKey != null && newKey == pilot_Differ.getKey(oldVChildren[oldHead + 1])) {
+					if(newKeyed[oldKey] || newKey != null && newKey == pilot_Differ.getKey(oldVChildren[oldHead + 1])) {
 						if(oldKey == null) {
 							pilot_Differ.detachNode(node,oldVChild);
 						}
@@ -438,10 +448,30 @@ pilot_Differ.detachNode = function(parent,vnode) {
 	if(vnode.hooks.detach != null) {
 		vnode.hooks.detach();
 	}
+	var _g = 0;
+	var _g1 = vnode.children;
+	while(_g < _g1.length) {
+		var child = _g1[_g];
+		++_g;
+		if(child.hooks.detach != null) {
+			child.hooks.detach();
+		}
+		var _g2 = 0;
+		var _g11 = child.children;
+		while(_g2 < _g11.length) pilot_Differ.doDetachHook(_g11[_g2++]);
+	}
 	if(!parent.contains(vnode.node)) {
 		return;
 	}
 	parent.removeChild(vnode.node);
+};
+pilot_Differ.doDetachHook = function(vnode) {
+	if(vnode.hooks.detach != null) {
+		vnode.hooks.detach();
+	}
+	var _g = 0;
+	var _g1 = vnode.children;
+	while(_g < _g1.length) pilot_Differ.doDetachHook(_g1[_g++]);
 };
 pilot_Differ.getKey = function(vnode) {
 	if(vnode == null) {
@@ -527,6 +557,9 @@ pilot_Differ.patchProperty = function(node,key,oldValue,newValue,isSvg) {
 		var node1 = node;
 		if(Reflect.field(node1,"__listener") == null) {
 			node1["__listener"] = function(event1) {
+				if(Reflect.field(node1,"__handlers") == null) {
+					node1["__handlers"] = { };
+				}
 				var cb = Reflect.field(Reflect.field(node1,"__handlers"),event1.type);
 				if(cb != null) {
 					cb(event1);
@@ -574,6 +607,22 @@ pilot_StatelessWidget.prototype = {
 	,detached: function() {
 	}
 };
+var pilot_StyleSheet = function() {
+	this.rules = [];
+};
+pilot_StyleSheet.__name__ = true;
+pilot_StyleSheet.getInstance = function() {
+	if(pilot_StyleSheet.instance == null) {
+		pilot_StyleSheet.instance = new pilot_StyleSheet();
+	}
+	return pilot_StyleSheet.instance;
+};
+pilot_StyleSheet.prototype = {
+	add: function(rule) {
+		this.rules.push(rule);
+		return rule;
+	}
+};
 var pilot_VNodeType = $hxEnums["pilot.VNodeType"] = { __ename__ : true, __constructs__ : ["VNodeElement","VNodeText","VNodeRecycled","VNodeFragment","VNodePlaceholder"]
 	,VNodeElement: {_hx_index:0,__enum__:"pilot.VNodeType",toString:$estr}
 	,VNodeText: {_hx_index:1,__enum__:"pilot.VNodeType",toString:$estr}
@@ -609,6 +658,12 @@ pilot__$VNode_VNode_$Impl_$._new = function(impl) {
 	}
 	return impl;
 };
+var pilot_styles__$_$E4DCW__$E4DCW_$Impl_$ = {};
+pilot_styles__$_$E4DCW__$E4DCW_$Impl_$.__name__ = true;
+var pilot_styles__$_$HSXAF__$HSXAF_$Impl_$ = {};
+pilot_styles__$_$HSXAF__$HSXAF_$Impl_$.__name__ = true;
+var pilot_styles__$_$PKPJC__$PKPJC_$Impl_$ = {};
+pilot_styles__$_$PKPJC__$PKPJC_$Impl_$.__name__ = true;
 var pilot_wings_PortalTarget = function(props) {
 	this._pilot_props = { };
 	this._pilot_props.id = props.id;
@@ -619,7 +674,7 @@ pilot_wings_PortalTarget.insertInto = function(id,vnode) {
 		var _this = pilot_wings_PortalTarget.portals;
 		if(__map_reserved[id] != null ? _this.existsReserved(id) : _this.h.hasOwnProperty(id)) {
 			var _this1 = pilot_wings_PortalTarget.portals;
-			pilot_Differ.patch(__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id],vnode);
+			pilot_Differ.subPatch(__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id],vnode);
 		}
 		return;
 	});
@@ -628,7 +683,7 @@ pilot_wings_PortalTarget.clear = function(id) {
 	var _this = pilot_wings_PortalTarget.portals;
 	if(__map_reserved[id] != null ? _this.existsReserved(id) : _this.h.hasOwnProperty(id)) {
 		var _this1 = pilot_wings_PortalTarget.portals;
-		pilot_Differ.patch(__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id],pilot__$VNode_VNode_$Impl_$._new({ name : "div", props : { }, children : []}));
+		pilot_Differ.subPatch(__map_reserved[id] != null ? _this1.getReserved(id) : _this1.h[id],pilot__$VNode_VNode_$Impl_$._new({ name : "div", props : { }, children : []}));
 	}
 };
 pilot_wings_PortalTarget.__super__ = pilot_StatelessWidget;
@@ -641,12 +696,11 @@ pilot_wings_PortalTarget.prototype = $extend(pilot_StatelessWidget.prototype,{
 	}
 	,attached: function(vnode) {
 		var key = this._pilot_props.id;
-		var value = vnode.node;
 		var _this = pilot_wings_PortalTarget.portals;
 		if(__map_reserved[key] != null) {
-			_this.setReserved(key,value);
+			_this.setReserved(key,vnode);
 		} else {
-			_this.h[key] = value;
+			_this.h[key] = vnode;
 		}
 	}
 });
@@ -659,6 +713,9 @@ Object.defineProperty(js__$Boot_HaxeError.prototype,"message",{ get : function()
 	return String(this.val);
 }});
 js_Boot.__toStr = ({ }).toString;
+pilot_styles__$_$E4DCW__$E4DCW_$Impl_$.rules = pilot_StyleSheet.getInstance().add(".wng-overlay--modal {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}");
+pilot_styles__$_$HSXAF__$HSXAF_$Impl_$.rules = pilot_StyleSheet.getInstance().add(".wng-modal-wrapper {\n  background-color: #fff;\n  padding: 1.5rem;\n}");
+pilot_styles__$_$PKPJC__$PKPJC_$Impl_$.rules = pilot_StyleSheet.getInstance().add(".wng-overlay {\n  position: fixed;\n  overflow-y: scroll;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n}");
 pilot_wings_PortalTarget.defaultTarget = "overlay";
 pilot_wings_PortalTarget.portals = new haxe_ds_StringMap();
 Test.main();

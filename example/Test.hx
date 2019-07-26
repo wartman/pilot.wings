@@ -1,7 +1,7 @@
 import js.Browser;
 import pilot.wings.*;
-using pilot.Differ;
 
+using pilot.Differ;
 
 class Test {
   
