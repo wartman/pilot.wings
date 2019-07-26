@@ -1,0 +1,11 @@
+-cp src
+-cp example
+
+-dce full
+-D analyzer-optimize
+
+-lib pilot
+
+-main Test
+
+-js dist/test.js
