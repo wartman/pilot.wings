@@ -13,7 +13,10 @@ class Test {
         new Modal({
           target: PortalTarget.defaultTarget,
           requestClose: () -> trace('close plz'),
-          title: 'Test',
+          header: new ModalHeader({
+            title: 'Test',
+            requestClose: () -> null,
+          }),
           child: new Box({
             children: [ 'test' ]
           })

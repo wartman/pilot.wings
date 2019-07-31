@@ -2,7 +2,6 @@ package pilot.wings;
 
 import pilot.VNode;
 import pilot.StatelessWidget;
-import js.html.Node;
 
 using pilot.Differ;
 
