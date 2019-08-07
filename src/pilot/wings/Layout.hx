@@ -19,10 +19,7 @@ abstract Layout(VNode) to VNode {
     type:LayoutType,
     child:VNode
   }) {
-    this = new StyledWidget({
-      style: [ props.type ],
-      child: props.child
-    });
+    this = Style.applyStyle(props.child, props.type);
   }
 
 }

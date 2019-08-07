@@ -2,6 +2,7 @@ package pilot.wings;
 
 import pilot.VNode;
 import pilot.Style;
+import pilot.wings.PortalTarget;
 
 enum abstract ModalPosition(Style) to Style {
   var PositionCentered = Style.create({
@@ -17,17 +18,36 @@ enum abstract ModalPosition(Style) to Style {
   }, 'wng-overlay--modal-default');
 }
 
-// enum abstract ModalType(Style) to Style {
-// }
+enum abstract ModalType(Style) to Style {
+  var ModalDefault = Style.create({
+    padding: '1.5rem'
+  }, 'wng-modal--default');
+  var ModalLarge = Style.create({
+    padding: '1.5rem',
+    media: {
+      query: { type: 'screen' } & { maxWidth: '700px' },
+      style: {
+        width: '50%',
+        minWidth: '700px',
+      }
+    } + {
+      query: { type: 'screen'} & { minWidth: '700px' },
+      style: {
+        width: 'auto',
+      }
+    }
+  }, 'wng-modal--large');
+}
 
 abstract Modal(VNode) to VNode {
   
   public inline function new(props:{
-    ?target:String,
+    ?target:PortalTargetId,
     ?overlayStyle:Style,
     ?modalStyle:Style,
     ?header:VNode,
     ?position:ModalPosition,
+    ?type:ModalType,
     requestClose:()->Void,
     child:VNode
   }) {
@@ -45,10 +65,9 @@ abstract Modal(VNode) to VNode {
         ],
         child: new Box({
           style: [
-            Style.create({
-              backgroundColor: '#fff',
-              padding: '1.5rem',
-            }, 'wng-modal'),
+            props.type == null
+              ? ModalDefault
+              : props.type,
             props.modalStyle,
           ],
           #if js

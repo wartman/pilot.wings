@@ -1,11 +1,12 @@
 package pilot.wings;
 
 import pilot.VNode;
+import pilot.wings.PortalTarget;
 
 abstract Portal(VNode) to VNode {
   
   public inline function new(props:{
-    target:String,
+    target:PortalTargetId,
     child:VNode,
     ?onAttach:(vn:VNode)->Void,
     ?onDetach:()->Void

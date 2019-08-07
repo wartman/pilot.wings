@@ -2,7 +2,6 @@ package pilot.wings;
 
 import pilot.Style;
 import pilot.VNode;
-import pilot.StyledWidget;
 
 enum abstract LayoutItemType(Style) to Style {
   
@@ -23,10 +22,7 @@ abstract LayoutItem(VNode) to VNode {
     type:LayoutItemType,
     child:VNode
   }) {
-    this = new StyledWidget({
-      style: [ props.type ],
-      child: props.child
-    });
+    this = Style.applyStyle(props.child, props.type);
   }
 
 }

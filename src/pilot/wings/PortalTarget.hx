@@ -5,12 +5,20 @@ import pilot.StatelessWidget;
 
 using pilot.Differ;
 
+abstract PortalTargetId(String) to String {
+
+  public inline function new(id:String) {
+    this = id;
+  }
+
+} 
+
 class PortalTarget extends StatelessWidget {
 
-  static public final defaultTarget = 'overlay';
-  static final portals:Map<String, VNode> = [];
+  static public final defaultTarget:PortalTargetId = new PortalTargetId('overlay');
+  static final portals:Map<PortalTargetId, VNode> = [];
 
-  static public function insertInto(id:String, vnode:VNode) {
+  static public function insertInto(id:PortalTargetId, vnode:VNode) {
     js.Browser.window.requestAnimationFrame(_ -> {
       if (portals.exists(id)) {
         portals.get(id).subPatch(vnode);
@@ -18,7 +26,7 @@ class PortalTarget extends StatelessWidget {
     });
   }
 
-  static public function clear(id:String) {
+  static public function clear(id:PortalTargetId) {
     if (portals.exists(id)) {
       portals.get(id).subPatch(new VNode({
         name: 'div',
@@ -28,7 +36,7 @@ class PortalTarget extends StatelessWidget {
     }
   }
 
-  @:prop var id:String;
+  @:prop var id:PortalTargetId;
 
   override function build():VNode {
     return  new VNode({
