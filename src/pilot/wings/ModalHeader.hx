@@ -31,7 +31,6 @@ abstract ModalHeader(VNode) to VNode {
         ]
       })
     });
-    trace(this.style);
   }
 
 }
