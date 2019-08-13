@@ -2,7 +2,6 @@ package pilot.wings;
 
 import pilot.VNode;
 import pilot.Style;
-import pilot.StyledWidget;
 
 enum abstract LayoutType(Style) to Style {
   
@@ -10,6 +9,11 @@ enum abstract LayoutType(Style) to Style {
     display: 'flex',
     flexDirection: 'row'
   }, 'wng-layout--inline');
+  
+  var LayoutCentered = Style.create({
+    display: 'flex',
+    justifyContent: 'center'
+  }, 'wng-layout--centered');
 
 }
 

@@ -54,7 +54,14 @@ abstract Input(VNode) to VNode {
               }
             } : null,
           onBlur: props.onBlur,
-          onChange: props.onChange,
+          onChange: props.onChange != null
+            ? (e:Event) -> {
+              var e:KeyboardEvent = cast e;
+              if (e.key == 'Enter') {
+                var input:InputElement = cast e.target;
+                props.onChange(input.value);
+              }
+            } : null,
           onClick: props.onClick,
         #end
       },
