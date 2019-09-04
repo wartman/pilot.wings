@@ -5,15 +5,15 @@ import pilot.Style;
 
 enum abstract LayoutType(Style) to Style {
   
-  var LayoutInline = Style.create({
+  var LayoutInline = Style.create('wng-layout--inline' => {
     display: 'flex',
     flexDirection: 'row'
-  }, 'wng-layout--inline');
+  });
   
-  var LayoutCentered = Style.create({
+  var LayoutCentered = Style.create('wng-layout--centered' => {
     display: 'flex',
     justifyContent: 'center'
-  }, 'wng-layout--centered');
+  });
 
 }
 

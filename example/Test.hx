@@ -9,17 +9,28 @@ using pilot.Differ;
 class Test {
   
   public static function main() {
-    Style.global({
-      'h1, h2, h3': {
-        margin: 0
-      },
-    });
-
     var root = Browser.document.getElementById('root');
     root.patch(new Box({
       children: [
         new PortalTarget({ id: PortalTarget.defaultTarget }),
-        new ModalTest({ isOpen: false }),
+        new Box({
+          style: Style.global({
+            'h1, h2, h3': {
+              margin: 0
+            },
+          }),
+          children: [
+            new Header({
+              children: [
+                new HeadingText({
+                  type: HeadingMain,
+                  content: 'Test'
+                }),
+                new ModalTest({ isOpen: false })
+              ]
+            }),
+          ]
+        })
       ]
     }));
   }
@@ -45,6 +56,7 @@ class ModalTest extends StatefulWidget {
             background: '#FFF'
           }),
           target: PortalTarget.defaultTarget,
+          position: PositionCentered,
           requestClose: () -> isOpen = false,
           header: new ModalHeader({
             title: 'Test',

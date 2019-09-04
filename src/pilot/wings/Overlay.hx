@@ -12,8 +12,7 @@ abstract Overlay(VNode) to VNode {
   }) {
     this = new Box({
       style: [
-        props.style,
-        Style.create({
+        Style.create('wng-overlay' => {
           position: 'fixed',
           overflowY: 'scroll',
           top: 0,
@@ -21,7 +20,8 @@ abstract Overlay(VNode) to VNode {
           left: 0,
           right: 0,
           zIndex: 9000,
-        }, 'wng-overlay')
+        }),
+        props.style
       ],
       #if js
         onClick: _ -> props.requestClose(),

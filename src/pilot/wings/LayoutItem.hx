@@ -5,14 +5,14 @@ import pilot.VNode;
 
 enum abstract LayoutItemType(Style) to Style {
   
-  var LayoutItemPrimary = Style.create({
+  var LayoutItemPrimary = Style.create('wng-layout-item--primary' => {
     flex: 2
-  }, 'wng-layout-item--primary');
+  });
 
-  var LayoutItemLast = Style.create({
+  var LayoutItemLast = Style.create('wng-layout-item--last' => {
     flex: 1,
     alignSelf: 'flex-end'
-  }, 'wng-layout-item--last');
+  });
 
 }
 

@@ -5,24 +5,24 @@ import pilot.Style;
 import pilot.wings.PortalTarget;
 
 enum abstract ModalPosition(Style) to Style {
-  var PositionCentered = Style.create({
+  var PositionCentered = Style.create('wng-overlay--modal-centered' => {
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-  }, 'wng-overlay--modal-centered');
-  var PositionDefault = Style.create({
+  });
+  var PositionDefault = Style.create('wng-overlay--modal-default' => {
     display: 'flex',
+    flexWrap: 'wrap',
     justifyContent: 'center',
-    padding: '3rem 0',
-    overflowY: 'scroll',
-  }, 'wng-overlay--modal-default');
+  });
 }
 
 enum abstract ModalType(Style) to Style {
-  var ModalDefault = Style.create({
+  var ModalDefault = Style.create('wng-modal--default' => {
     padding: '1.5rem'
-  }, 'wng-modal--default');
-  var ModalLarge = Style.create({
+  });
+  var ModalLarge = Style.create('wng-modal--large' => {
     padding: '1.5rem',
     media: {
       query: { type: 'screen' } & { maxWidth: '700px' },
@@ -36,7 +36,7 @@ enum abstract ModalType(Style) to Style {
         width: 'auto',
       }
     }
-  }, 'wng-modal--large');
+  });
 }
 
 abstract Modal(VNode) to VNode {
