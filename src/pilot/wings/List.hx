@@ -13,10 +13,12 @@ abstract List(VNode) to VNode {
     this = new VNode({
       name: 'ul',
       style: [
-        Style.create('wng-list' => {
-          listStyle: 'none',
-          margin: 0,
-          padding: 0,
+        Style.sheet({
+          wingList: {
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+          }
         }),
         props.style,
       ],

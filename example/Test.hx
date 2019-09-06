@@ -53,19 +53,25 @@ class ModalTest extends StatefulWidget {
             background: 'rgba(0, 0, 0, 0.5)',
           }),
           modalStyle: Style.create({
-            background: '#FFF'
+            background: '#FFF',
+            padding: '1rem',
+            width: '100%',
+            maxWidth: '900px',
           }),
           target: PortalTarget.defaultTarget,
           position: PositionCentered,
           requestClose: () -> isOpen = false,
           header: new ModalHeader({
             title: 'Test',
+            style: Style.create({
+              marginBottom: '10px',
+              lineHeight: '30px',
+              height: '30px',
+              fontSize: '12px',
+            }),
             requestClose: () -> isOpen = false,
           }),
           child: new Box({
-            style: Style.create({
-              padding: '1rem 0',
-            }),
             children: [ 
               'This is a modal!'
             ]

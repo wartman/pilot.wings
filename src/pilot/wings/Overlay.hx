@@ -12,14 +12,16 @@ abstract Overlay(VNode) to VNode {
   }) {
     this = new Box({
       style: [
-        Style.create('wng-overlay' => {
-          position: 'fixed',
-          overflowY: 'scroll',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 9000,
+        Style.sheet({ 
+          wingOverlay: {
+            position: 'fixed',
+            overflowY: 'scroll',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 9000,
+          }
         }),
         props.style
       ],

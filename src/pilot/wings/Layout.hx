@@ -3,27 +3,34 @@ package pilot.wings;
 import pilot.VNode;
 import pilot.Style;
 
-enum abstract LayoutType(Style) to Style {
-  
-  var LayoutInline = Style.create('wng-layout--inline' => {
-    display: 'flex',
-    flexDirection: 'row'
-  });
-  
-  var LayoutCentered = Style.create('wng-layout--centered' => {
-    display: 'flex',
-    justifyContent: 'center'
-  });
+using pilot.VNodeTools;
 
+enum LayoutType {
+  LayoutInline;
+  LayoutCentered;
 }
 
 abstract Layout(VNode) to VNode {
   
+  static final styles = Style.sheet({
+    wingLayoutInline: {
+      display: 'flex',
+      flexDirection: 'row'
+    },
+    wingLayoutCentered: {
+      display: 'flex',
+      justifyContent: 'center'
+    }
+  });
+
   public inline function new(props:{
     type:LayoutType,
     child:VNode
   }) {
-    this = Style.applyStyle(props.child, props.type);
+    this = props.child.addStyle(switch props.type {
+      case LayoutInline: styles.wingLayoutInline;
+      case LayoutCentered: styles.wingLayoutCentered;
+    });
   }
 
 }

@@ -1,33 +1,45 @@
 package pilot.wings;
 
 import pilot.VNode;
+import pilot.Style;
 
-using pilot.Style;
+using pilot.VNodeTools;
 
-enum abstract HorizontalLayoutAlignment(Style) to Style {
-  var AlignRight = Style.create('wng-h-layout--align-right' => {
-    justifyContent: 'flex-end'
-  });
-  var AlignLeft = Style.create('wng-h-layout--align-left' => {
-    justifyContent: 'flex-start'
-  });
-  var AlignCenter = Style.create('wng-h-layout--align-center' => {
-    justifyContent: 'center'
-  });
+enum HorizontalLayoutAlignment {
+  AlignRight;
+  AlignLeft;
+  AlignCenter;
 }
 
 abstract HorizontalLayout(VNode) to VNode {
+
+  static final styles = Style.sheet({
+    wingHLayoutAlignRight: {
+      justifyContent: 'flex-end'
+    },
+    wingHLayoutAlignLeft: {
+    justifyContent: 'flex-start'
+    },
+    wingHLayoutAlignCenter: {
+      justifyContent: 'center'
+    },
+    wingHLayout: {
+      display: 'flex',
+      flexDirection: 'row'
+    }
+  });
   
   public inline function new(props:{
     ?align:HorizontalLayoutAlignment,
     child:VNode,
   }) {
-    this = props.child.applyStyle([
-      props.align,
-      Style.create('wng-h-layout' => {
-        display: 'flex',
-        flexDirection: 'row'
-      })
+    this = props.child.addStyle([
+      switch props.align {
+        case AlignRight: styles.wingHLayoutAlignRight;
+        case AlignCenter: styles.wingHLayoutAlignCenter;
+        default: styles.wingHLayoutAlignLeft;
+      },
+      styles.wingHLayout
     ]);
   }
 

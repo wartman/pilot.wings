@@ -1,17 +1,20 @@
 package pilot.wings;
 
 import pilot.VNode;
+import pilot.Style;
 
 abstract ModalHeader(VNode) to VNode {
   
   public inline function new(props:{
     ?icon:VNode,
+    ?style:Style,
     requestClose:()->Void,
     title:String
   }) {
     this = new Layout({
       type: LayoutInline,
       child: new Header({
+        style: props.style,
         children: [
           new LayoutItem({
             type: LayoutItemPrimary,

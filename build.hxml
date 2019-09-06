@@ -1,11 +1,12 @@
 -cp src
 -cp example
 
--dce full
--D analyzer-optimize
-
 -lib pilot
 
 -main Test
 
+-dce full
+-D analyzer-optimize
+-D pilot-prefix=wing
+-D js-es=6
 -js dist/assets/test.js

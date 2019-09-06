@@ -3,26 +3,33 @@ package pilot.wings;
 import pilot.Style;
 import pilot.VNode;
 
-enum abstract LayoutItemType(Style) to Style {
-  
-  var LayoutItemPrimary = Style.create('wng-layout-item--primary' => {
-    flex: 2
-  });
+using pilot.VNodeTools;
 
-  var LayoutItemLast = Style.create('wng-layout-item--last' => {
-    flex: 1,
-    alignSelf: 'flex-end'
-  });
-
+enum LayoutItemType {
+  LayoutItemPrimary;
+  LayoutItemLast;
 }
 
 abstract LayoutItem(VNode) to VNode {
   
+  static final styles = Style.sheet({
+    wingLayoutItemPrimary: {
+      flex: 2
+    },
+    wingLayoutItemLast: {
+      flex: 1,
+      alignSelf: 'flex-end'
+    }
+  });
+
   public function new(props:{
     type:LayoutItemType,
     child:VNode
   }) {
-    this = Style.applyStyle(props.child, props.type);
+    this = props.child.addStyle(switch props.type {
+      case LayoutItemPrimary: styles.wingLayoutItemPrimary;
+      case LayoutItemLast: styles.wingLayoutItemLast;
+    });
   }
 
 }

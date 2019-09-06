@@ -1,32 +1,45 @@
 package pilot.wings;
 
 import pilot.VNode;
-using pilot.Style;
+import pilot.Style;
 
-enum abstract VerticalLayoutAlignment(Style) to Style {
-  var AlignTop = Style.create('wng-v-layout--align-top' => {
-    alignItems: 'flex-start',
-  });
-  var AlignBottom = Style.create('wng-v-layout--align-bottom' => {
-    alignItems: 'flex-end',
-  });
-  var AlignCenter = Style.create('wng-v-layout--align-center' => {
-    alignItems: 'center',
-  });
+using pilot.VNodeTools;
+
+enum VerticalLayoutAlignment {
+  AlignTop;
+  AlignBottom;
+  AlignCenter;
 }
 
 abstract VerticalLayout(VNode) to VNode {
   
+  static final styles = Style.sheet({
+    wingVLayoutAlignTop: {
+      alignItems: 'flex-top'
+    },
+    wingVLayoutAlignBottom: {
+      alignItems: 'flex-end'
+    },
+    wingVLayoutAlignCenter: {
+      alignItems: 'center'
+    },
+    wingVLayout: {
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  });
+
   public inline function new(props:{
     ?align:VerticalLayoutAlignment,
     child:VNode,
   }) {
-    this = props.child.applyStyle([
-      props.align,
-      Style.create('wng-v-layout' => {
-        display: 'flex',
-        flexDirection: 'column'
-      })
+    this = props.child.addStyle([
+      switch props.align {
+        case AlignBottom: styles.wingVLayoutAlignBottom;
+        case AlignCenter: styles.wingVLayoutAlignCenter;
+        default: styles.wingVLayoutAlignTop;
+      },
+      styles.wingVLayout
     ]);
   }
 
