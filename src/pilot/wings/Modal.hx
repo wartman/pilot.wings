@@ -4,26 +4,21 @@ import pilot.VNode;
 import pilot.Style;
 import pilot.wings.PortalTarget;
 
-enum ModalPosition {
-  PositionCentered;
-  PositionDefault;
+enum abstract ModalPosition(Style) to Style {
+  var PositionCentered = Style.create( {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',      
+  });
+  var PositionDefault = Style.create({
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',   
+  });
 }
 
 abstract Modal(VNode) to VNode {
-  
-  static final styles = Style.sheet({
-    wingModalPositionCentered: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      alignItems: 'center',      
-    },
-    wingModalPositionDefault: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',      
-    }
-  });
 
   public inline function new(props:{
     ?target:PortalTargetId,
@@ -42,10 +37,7 @@ abstract Modal(VNode) to VNode {
         requestClose: props.requestClose,
         style: [
           props.overlayStyle,
-          switch props.position {
-            case PositionCentered: styles.wingModalPositionCentered;
-            default: styles.wingModalPositionDefault;
-          }
+          props.position
         ],
         child: new Box({
           style: [

@@ -5,31 +5,23 @@ import pilot.VNode;
 
 using pilot.VNodeTools;
 
-enum LayoutItemType {
-  LayoutItemPrimary;
-  LayoutItemLast;
+enum abstract LayoutItemType(Style) to Style {
+  var LayoutItemPrimary = Style.create({
+    flex: 2
+  });
+  var LayoutItemLast = Style.create({
+    flex: 1,
+    alignSelf: 'flex-end'
+  });
 }
 
 abstract LayoutItem(VNode) to VNode {
-  
-  static final styles = Style.sheet({
-    wingLayoutItemPrimary: {
-      flex: 2
-    },
-    wingLayoutItemLast: {
-      flex: 1,
-      alignSelf: 'flex-end'
-    }
-  });
 
   public function new(props:{
     type:LayoutItemType,
     child:VNode
   }) {
-    this = props.child.addStyle(switch props.type {
-      case LayoutItemPrimary: styles.wingLayoutItemPrimary;
-      case LayoutItemLast: styles.wingLayoutItemLast;
-    });
+    this = props.child.addStyle(props.type);
   }
 
 }

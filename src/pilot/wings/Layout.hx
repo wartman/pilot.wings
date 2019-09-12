@@ -5,32 +5,24 @@ import pilot.Style;
 
 using pilot.VNodeTools;
 
-enum LayoutType {
-  LayoutInline;
-  LayoutCentered;
+enum abstract LayoutType(Style) to Style {
+  var LayoutInline = Style.create({
+    display: 'flex',
+    flexDirection: 'row'
+  });
+  var LayoutCentered = Style.create({
+    display: 'flex',
+    justifyContent: 'center'
+  });
 }
 
 abstract Layout(VNode) to VNode {
-  
-  static final styles = Style.sheet({
-    wingLayoutInline: {
-      display: 'flex',
-      flexDirection: 'row'
-    },
-    wingLayoutCentered: {
-      display: 'flex',
-      justifyContent: 'center'
-    }
-  });
 
   public inline function new(props:{
     type:LayoutType,
     child:VNode
   }) {
-    this = props.child.addStyle(switch props.type {
-      case LayoutInline: styles.wingLayoutInline;
-      case LayoutCentered: styles.wingLayoutCentered;
-    });
+    this = props.child.addStyle(props.type);
   }
 
 }

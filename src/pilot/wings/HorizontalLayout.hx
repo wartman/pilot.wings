@@ -5,41 +5,30 @@ import pilot.Style;
 
 using pilot.VNodeTools;
 
-enum HorizontalLayoutAlignment {
-  AlignRight;
-  AlignLeft;
-  AlignCenter;
+enum abstract HorizontalLayoutAlignment(Style) to Style {
+  var AlignRight = Style.create({
+    justifyContent: 'flex-end'
+  });
+  var AlignLeft = Style.create({
+    justifyContent: 'flex-start'
+  });
+  var AlignCenter = Style.create({
+    justifyContent: 'center'
+  });
 }
 
 abstract HorizontalLayout(VNode) to VNode {
-
-  static final styles = Style.sheet({
-    wingHLayoutAlignRight: {
-      justifyContent: 'flex-end'
-    },
-    wingHLayoutAlignLeft: {
-    justifyContent: 'flex-start'
-    },
-    wingHLayoutAlignCenter: {
-      justifyContent: 'center'
-    },
-    wingHLayout: {
-      display: 'flex',
-      flexDirection: 'row'
-    }
-  });
   
   public inline function new(props:{
     ?align:HorizontalLayoutAlignment,
     child:VNode,
   }) {
     this = props.child.addStyle([
-      switch props.align {
-        case AlignRight: styles.wingHLayoutAlignRight;
-        case AlignCenter: styles.wingHLayoutAlignCenter;
-        default: styles.wingHLayoutAlignLeft;
-      },
-      styles.wingHLayout
+      props.align,
+      Style.create({
+        display: 'flex',
+        flexDirection: 'row'
+      })
     ]);
   }
 
