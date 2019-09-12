@@ -7,6 +7,7 @@ abstract Header(VNode) to VNode {
   
   public inline function new(props:{
     ?style:Style,
+    ?id:String,
     children:Array<VNode>
   }) {
     this = new VNode({
@@ -14,7 +15,9 @@ abstract Header(VNode) to VNode {
       style: [
         props.style
       ],
-      props: {},
+      props: {
+        id: props.id
+      },
       children: props.children
     });
   }

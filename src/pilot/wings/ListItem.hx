@@ -17,6 +17,7 @@ abstract ListItem(VNode) to VNode {
     this = new VNode({
       name: 'li',
       key: props.key,
+      style: props.style,
       props: {
         #if js
           onClick: props.onClick

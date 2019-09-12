@@ -13,13 +13,15 @@ abstract Portal(VNode) to VNode {
   }) {
     PortalTarget.insertInto(props.target, props.child);
     this = VNode.placeholder();
-    this.hooks.attach = vn -> {
-      if (props.onAttach != null) props.onAttach(vn);
-    }
-    this.hooks.detach = () -> {
-      PortalTarget.clear(props.target);
-      if (props.onDetach != null) props.onDetach();
-    }
+    #if js
+      this.hooks.attach = vn -> {
+        if (props.onAttach != null) props.onAttach(vn);
+      }
+      this.hooks.detach = () -> {
+        PortalTarget.clear(props.target);
+        if (props.onDetach != null) props.onDetach();
+      }
+    #end
   }
 
 }
