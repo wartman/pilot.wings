@@ -7,6 +7,7 @@ abstract Button(VNode) to VNode {
   
   public inline function new(props:{
     children:Array<VNode>,
+    ?buttonType:String,
     ?style:Style,
     ?disabled:Bool,
     #if js
@@ -17,6 +18,7 @@ abstract Button(VNode) to VNode {
       name: 'button',
       style: props.style,
       props: {
+        type: props.buttonType,
         disabled: props.disabled == null ? false : props.disabled,
         #if js
           onClick: props.onClick
