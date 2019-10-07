@@ -9,6 +9,7 @@ abstract ListItem(VNode) to VNode {
   public inline function new(props:{
     ?style:Style,
     ?key:VNodeKey,
+    ?id:String,
     #if js
       ?onClick: (e:js.html.Event)->Void,
     #end
@@ -19,6 +20,7 @@ abstract ListItem(VNode) to VNode {
       key: props.key,
       style: props.style,
       props: {
+        id: props.id,
         #if js
           onClick: props.onClick
         #end

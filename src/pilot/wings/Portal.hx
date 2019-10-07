@@ -1,6 +1,7 @@
 package pilot.wings;
 
 import pilot.VNode;
+import pilot.Placeholder;
 import pilot.wings.PortalTarget;
 
 abstract Portal(VNode) to VNode {
@@ -12,7 +13,7 @@ abstract Portal(VNode) to VNode {
     ?onDetach:()->Void
   }) {
     PortalTarget.insertInto(props.target, props.child);
-    this = VNode.placeholder();
+    this = new Placeholder();
     #if js
       this.hooks.attach = vn -> {
         if (props.onAttach != null) props.onAttach(vn);
