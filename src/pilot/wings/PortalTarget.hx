@@ -1,11 +1,6 @@
 package pilot.wings;
 
-import pilot.VNode;
-import pilot.StatelessWidget;
-
-#if js
-  using pilot.Differ;
-#end
+import pilot.*;
 
 abstract PortalTargetId(String) to String {
 
@@ -13,55 +8,64 @@ abstract PortalTargetId(String) to String {
     this = id;
   }
 
-} 
+}
 
-class PortalTarget extends StatelessWidget {
-
+class PortalTarget implements Renderable {
+  
   static public final defaultTarget:PortalTargetId = new PortalTargetId('overlay');
-  static final portals:Map<PortalTargetId, VNode> = [];
 
-  #if js
-    static public function insertInto(id:PortalTargetId, vnode:VNode) {
-      js.Browser.window.requestAnimationFrame(_ -> {
-        if (portals.exists(id)) {
-          portals.get(id).subPatch(vnode);
-        }
-      });
-    }
+  final id:PortalTargetId;
+  var context:Context;
+  var vNode:VNode;
 
-    static public function clear(id:PortalTargetId) {
-      if (portals.exists(id)) {
-        portals.get(id).subPatch(new VNode({
-          name: 'div',
-          props: {
-            id: id
-          },
-          children: []
-        }));
-      }
-    }
-  #end
+  public function new(props:{
+    id:PortalTargetId
+  }) {
+    id = props.id;
+  }
 
-  @:prop var id:PortalTargetId;
+  function _pilot_getVNode() {
+    return vNode;
+  }
 
-  override function build():VNode {
+  function _pilot_getId():String {
+    return id;
+  }
+
+  function build(?child:VNode):VNode {
     return new VNode({
       name: 'div',
-      props: {
-        id: id
-      },
-      children: []
+      props: { id: id },
+      children: child != null ? [ child ] : []
     });
   }
 
-  #if js
-    override function detached() {
-      portals.remove(id);
-    }
+  public function set(child:VNode) {
+    #if js
+      if (context != null) {
+        context.differ.subPatch(vNode, build(child));
+      }
+    #end
+  }
 
-    override function attached(vnode:VNode) {
-      portals.set(id, vnode);
-    }
-  #end
+  public function clear() {
+    #if js
+      if (context != null) {
+        context.differ.subPatch(vNode, build());
+      }
+    #end
+  }
+
+  public function render(context:Context):VNode {
+    this.context = context;
+    context.data.set(_pilot_getId(), this);
+    vNode = build();
+    return vNode;
+  }
+
+  public function dispose() {
+    context = null;
+    vNode = null;
+  }
 
 }

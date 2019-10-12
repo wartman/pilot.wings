@@ -3,8 +3,6 @@ package pilot.wings;
 import pilot.VNode;
 import pilot.Style;
 
-using pilot.VNodeTools;
-
 enum abstract LayoutType(Style) to Style {
   var LayoutInline = Style.create({
     display: 'flex',

@@ -1,16 +1,13 @@
-import pilot.Style;
-import pilot.VNode;
-import pilot.StatefulWidget;
+import pilot.*;
 import js.Browser;
 import pilot.wings.*;
-
-using pilot.Differ;
 
 class Test {
   
   public static function main() {
     var root = Browser.document.getElementById('root');
-    root.patch(new Box({
+    var context = new Context();
+    context.differ.patch(root, new Box({
       children: [
         new PortalTarget({ id: PortalTarget.defaultTarget }),
         new Box({
@@ -37,15 +34,15 @@ class Test {
 
 }
 
-class ModalTest extends StatefulWidget {
+class ModalTest extends Widget {
 
-  @:state var isOpen:Bool;
+  @:prop.state var isOpen:Bool;
 
   override function build():VNode {
     return new Box({
       children: [
         new Button({
-          onClick: _ -> isOpen = !isOpen,
+          onClick: _ -> isOpen = true,
           children: [ 'Show Modal' ]
         }),
         if (isOpen) new Modal({
@@ -60,7 +57,10 @@ class ModalTest extends StatefulWidget {
           }),
           target: PortalTarget.defaultTarget,
           position: PositionCentered,
-          requestClose: () -> isOpen = false,
+          requestClose: () -> {
+            trace(isOpen ? 'open' : 'closed');
+            isOpen = false;
+          },
           header: new ModalHeader({
             title: 'Test',
             style: Style.create({

@@ -1,17 +1,15 @@
 package pilot.wings;
 
-import pilot.VNode;
-import pilot.Style;
+import pilot.*;
 
 abstract Box(VNode) to VNode {
   
   public inline function new(props:{
     ?style:Style,
-    children:Array<VNode>,
+    children:Children,
+    ?hooks:Array<Hook>,
     #if js
       ?onClick:(e:js.html.Event)->Void,
-      ?onAttach:(node:VNode)->Void,
-      ?onDetach:()->Void,
     #end
   }) {
     this = new VNode({
@@ -22,12 +20,7 @@ abstract Box(VNode) to VNode {
           onClick: props.onClick,
         #end
       },
-      #if js
-        hooks: {
-          attach: props.onAttach,
-          detach: props.onDetach,
-        },
-      #end
+      hooks: props.hooks,
       children: props.children
     });
   }

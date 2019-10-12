@@ -3,8 +3,6 @@ package pilot.wings;
 import pilot.Style;
 import pilot.VNode;
 
-using pilot.VNodeTools;
-
 enum abstract LayoutItemType(Style) to Style {
   var LayoutItemPrimary = Style.create({
     flex: 2

@@ -5,7 +5,7 @@ import pilot.Style;
 import pilot.wings.PortalTarget;
 
 enum abstract ModalPosition(Style) to Style {
-  var PositionCentered = Style.create( {
+  var PositionCentered = Style.create({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
