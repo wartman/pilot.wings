@@ -1,28 +1,25 @@
 package pilot.wings;
 
-import pilot.VNode;
-import pilot.Placeholder;
+import pilot.Component;
+import pilot.Children;
 import pilot.wings.PortalTarget;
 
-abstract Portal(VNode) to VNode {
+class Portal extends Component {
   
-  public inline function new(props:{
-    target:PortalTargetId,
-    child:VNode,
-    ?onAttach:(vn:VNode)->Void,
-    ?onDetach:()->Void
-  }) {
-    PortalTarget.insertInto(props.target, props.child);
-    this = new Placeholder();
-    #if js
-      this.hooks.attach = vn -> {
-        if (props.onAttach != null) props.onAttach(vn);
-      }
-      this.hooks.detach = () -> {
-        PortalTarget.clear(props.target);
-        if (props.onDetach != null) props.onDetach();
-      }
-    #end
+  @:attribute var id:PortalTargetId;
+  // Note: never pass the `portalTarget` in manually: only provide
+  //       the `id` and allow it to be injected.
+  @:attribute(inject = id) var portalTarget:PortalTarget;
+  @:attribute var children:Children;
+
+  @:effect function mount() {
+    portalTarget.setPortalContent(children);
   }
+
+  @:dispose function unmount() {
+    portalTarget.clearPortalContent();
+  }
+
+  override function render() return html(<></>);
 
 }

@@ -1,58 +1,51 @@
 package pilot.wings;
 
-import pilot.VNode;
 import pilot.Style;
+import pilot.Component;
+import pilot.PureComponent;
+import pilot.Children;
 import pilot.wings.PortalTarget;
 
+@:forward
 enum abstract ModalPosition(Style) to Style {
-  var PositionCentered = Style.create( {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',      
-  });
-  var PositionDefault = Style.create({
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',   
-  });
+  
+  var PositionCentered = Pilot.css('
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  ');
+
+  var PositionDefault = Pilot.css('
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  ');
+
 }
 
-abstract Modal(VNode) to VNode {
+class Modal extends Component {
+  
+  @:attribute var target:PortalTargetId;
+  @:attribute var requestClose:()->Void;
+  @:attribute var children:Children;
+  @:attribute var position:ModalPosition = PositionDefault;
+  @:attribute @:optional var overlayStyle:Style;
+  @:attribute @:optional var modalStyle:Style;
+  @:attribute @:optional var header:PureComponent;
 
-  public inline function new(props:{
-    ?target:PortalTargetId,
-    ?overlayStyle:Style,
-    ?modalStyle:Style,
-    ?header:VNode,
-    ?position:ModalPosition,
-    requestClose:()->Void,
-    child:VNode
-  }) {
-    this = new Portal({
-      target: props.target == null 
-        ? PortalTarget.defaultTarget 
-        : props.target,
-      child: new Overlay({
-        requestClose: props.requestClose,
-        style: [
-          props.overlayStyle,
-          props.position
-        ],
-        child: new Box({
-          style: [
-            props.modalStyle,
-          ],
-          #if js
-            onClick: e -> e.stopPropagation(),
-          #end
-          children: [
-            props.header,
-            props.child
-          ]
-        })
-      })
-    });
-  }
-
+  override function render() return html(
+    <Portal id={target}>
+      <Overlay 
+        style={position.add(overlayStyle)}
+        requestClose={requestClose}
+      >
+        <div class={modalStyle} onClick={e -> e.stopPropagation()}>
+          {header}
+          {children}
+        </div>
+      </Overlay>
+    </Portal>
+  );
+  
 }

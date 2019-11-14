@@ -1,33 +1,28 @@
 package pilot.wings;
 
-import pilot.VNode;
 import pilot.Style;
+import pilot.Component;
+import pilot.Children;
 
-abstract Overlay(VNode) to VNode {
+class Overlay extends Component {
   
-  public inline function new(props:{
-    ?style:Style,
-    requestClose:()->Void,
-    child:VNode
-  }) {
-    this = new Box({
-      style: [
-        Style.create({ 
-          position: 'fixed',
-          overflowY: 'scroll',
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          zIndex: 9000,
-        }),
-        props.style
-      ],
-      #if js
-        onClick: _ -> props.requestClose(),
-      #end
-      children: [ props.child ]
-    });
-  }
+  @:attribute @:optional var style:Style;
+  @:attribute var requestClose:()->Void;
+  @:attribute var children:Children;
+  @:style var root = '
+    position: fixed;
+    overflow-y: scroll;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90000;
+  ';
+
+  override function render() return html(
+    <div class={root.add(style)} onClick={_ -> requestClose()}>
+      {children}
+    </div>
+  );
 
 }
