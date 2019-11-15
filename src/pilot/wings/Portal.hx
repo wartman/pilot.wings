@@ -2,24 +2,24 @@ package pilot.wings;
 
 import pilot.Component;
 import pilot.Children;
-import pilot.wings.PortalTarget;
+import pilot.wings.PortalProvider;
 
 class Portal extends Component {
+
+  static var portalIds:Int = 0;
   
-  @:attribute var id:PortalTargetId;
-  // Note: never pass the `portalTarget` in manually: only provide
-  //       the `id` and allow it to be injected.
-  @:attribute(inject = id) var portalTarget:PortalTarget;
+  @:attribute(inject = PortalProvider.TARGET) var target:PortalTarget;
   @:attribute var children:Children;
-
-  @:effect function mount() {
-    portalTarget.setPortalContent(children);
+  var id:Int = portalIds++;
+  
+  @:effect function updateTarget() {
+    target.set(id, children);
   }
-
-  @:dispose function unmount() {
-    portalTarget.clearPortalContent();
+  
+  @:dispose function removeFromTarget() {
+    target.remove(id);
   }
-
+  
   override function render() return html(<></>);
-
+  
 }

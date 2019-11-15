@@ -2,9 +2,11 @@ package pilot.wings;
 
 import pilot.Style;
 import pilot.Component;
-import pilot.PureComponent;
+import pilot.RenderResult;
 import pilot.Children;
-import pilot.wings.PortalTarget;
+#if js
+  import pilot.wings.util.Body;
+#end
 
 @:forward
 enum abstract ModalPosition(Style) to Style {
@@ -26,26 +28,44 @@ enum abstract ModalPosition(Style) to Style {
 
 class Modal extends Component {
   
-  @:attribute var target:PortalTargetId;
   @:attribute var requestClose:()->Void;
   @:attribute var children:Children;
   @:attribute var position:ModalPosition = PositionDefault;
+  @:attribute var closeOnEsc:Bool = true;
   @:attribute @:optional var overlayStyle:Style;
   @:attribute @:optional var modalStyle:Style;
-  @:attribute @:optional var header:PureComponent;
+  @:attribute @:optional var header:RenderResult;
 
   override function render() return html(
-    <Portal id={target}>
+    <Portal>
       <Overlay 
         style={position.add(overlayStyle)}
         requestClose={requestClose}
       >
         <div class={modalStyle} onClick={e -> e.stopPropagation()}>
-          {header}
+          {header}  
           {children}
         </div>
       </Overlay>
     </Portal>
   );
   
+  #if js
+
+    function doCloseOnEsc(e:js.html.KeyboardEvent) {
+      if (e.key == 'Escape') requestClose();
+    }
+
+    @:init inline function setup() {
+      Body.lock();
+      if (closeOnEsc) js.Browser.window.addEventListener('keydown', doCloseOnEsc);
+    }
+
+    @:dispose inline function cleanup() {
+      Body.unlock();
+      js.Browser.window.removeEventListener('keydown', doCloseOnEsc);
+    }
+
+  #end
+
 }
