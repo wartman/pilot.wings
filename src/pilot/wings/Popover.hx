@@ -1,7 +1,7 @@
 package pilot.wings;
 
 import pilot.Component;
-import pilot.RenderResult;
+import pilot.VNode;
 import pilot.Children;
 import pilot.Style;
 import pilot.wings.Positioned;
@@ -11,7 +11,7 @@ class Popover extends Component {
   @:attribute @:optional var containerStyle:Style;
   @:attribute @:optional var popoverStyle:Style;
   @:attribute var side:PositionedSide = Bottom;
-  @:attribute var label:({ isOpen:Bool })->RenderResult;
+  @:attribute var label:({ isOpen:Bool })->VNode;
   @:attribute var children:Children;
   @:attribute(mutable = true) var isOpen:Bool = false;
 

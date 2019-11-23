@@ -3,7 +3,7 @@ package pilot.wings;
 import pilot.Provider;
 import pilot.Component;
 import pilot.Children;
-import pilot.RenderResult;
+import pilot.VNode;
 
 class PortalProvider extends Component {
   

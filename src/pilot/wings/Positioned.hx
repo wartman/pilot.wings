@@ -3,7 +3,6 @@ package pilot.wings;
 import pilot.Component;
 import pilot.Style;
 import pilot.Children;
-import pilot.RealNode;
 
 enum PositionedSide {
   Top;

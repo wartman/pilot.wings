@@ -2,7 +2,7 @@ package pilot.wings;
 
 import pilot.Style;
 import pilot.Component;
-import pilot.RenderResult;
+import pilot.VNode;
 import pilot.Children;
 #if js
   import pilot.wings.util.Body;
@@ -34,7 +34,7 @@ class Modal extends Component {
   @:attribute var closeOnEsc:Bool = true;
   @:attribute @:optional var overlayStyle:Style;
   @:attribute @:optional var modalStyle:Style;
-  @:attribute @:optional var header:RenderResult;
+  @:attribute @:optional var header:VNode;
 
   override function render() return html(
     <Portal>
