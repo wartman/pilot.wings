@@ -34,12 +34,12 @@ class PortalTarget extends Component {
      
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    if (_pilot_context != null) _pilot_update({}, _pilot_context);
+    if (_pilot_context != null) _pilot_update({}, [], _pilot_context);
   }
                                          
   public function remove(id:Int) {
     portals.remove(id);
-    if (_pilot_context != null) _pilot_update({}, _pilot_context);
+    if (_pilot_context != null) _pilot_update({}, [], _pilot_context);
   }
 
   // // Todo: <for> is broken

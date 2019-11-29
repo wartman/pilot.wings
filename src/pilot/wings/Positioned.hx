@@ -3,6 +3,7 @@ package pilot.wings;
 import pilot.Component;
 import pilot.Style;
 import pilot.Children;
+import pilot.Node;
 
 enum PositionedSide {
   Top;
@@ -14,9 +15,10 @@ enum PositionedSide {
 class Positioned extends Component {
 
   @:attribute @:optional var style:Style;
-  @:attribute var relativeTo:Component;
+  @:attribute var relativeTo:Node;
   @:attribute var children:Children;
   @:attribute var side:PositionedSide = Bottom;
+  var ref:Node;
 
   @:style var root = '
     position: absolute;
@@ -24,17 +26,14 @@ class Positioned extends Component {
   ';
 
   override function render() return html(
-    <div class={root.add(style)}>{children}</div>
+    <div class={root.add(style)} @ref={node -> ref = node}>{children}</div>
   );
 
   #if js
-    // todo: handle side
-    @:effect(guard = getRealNode() != null) function position() {
-      var el:js.html.Element = cast getRealNode();
-      var parent:js.html.Element = cast relativeTo.getRealNode();
+    @:effect(guard = relativeTo != null) function position() {
+      var el = ref.toElement();
+      var parent = relativeTo.toElement();
       var parentRect = parent.getBoundingClientRect();
-      
-      trace(el.offsetHeight / 2);
 
       // todo: switch to Bottom if set to Top but would go off the window, and vice-versa
       var x = switch side {

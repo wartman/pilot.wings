@@ -14,9 +14,10 @@ class Popover extends Component {
   @:attribute var label:({ isOpen:Bool })->VNode;
   @:attribute var children:Children;
   @:attribute(mutable = true) var isOpen:Bool = false;
+  var ref:Node;
 
   override function render() return html(
-    <div class={containerStyle}>
+    <div @ref={node -> ref = node} class={containerStyle}>
       <button onClick={_ -> toggle()}>
         {label({ isOpen: isOpen })}
       </button>
@@ -24,8 +25,13 @@ class Popover extends Component {
         <Portal>
           <Positioned
             style={popoverStyle}
-            side={side} 
-            relativeTo={this}
+            side={side}
+            // this is a bit iffy, as `ref` will not be available
+            // right away. This will only work on the second render,
+            // which -- luckily -- should be the typical behavior.
+            // Still, huge potential for bugs. Perhaps rethink how `@ref`
+            // works!
+            relativeTo={ref}
           >
             {children}
           </Positioned>
