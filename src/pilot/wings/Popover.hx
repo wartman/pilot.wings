@@ -26,12 +26,7 @@ class Popover extends Component {
           <Positioned
             style={popoverStyle}
             side={side}
-            // this is a bit iffy, as `ref` will not be available
-            // right away. This will only work on the second render,
-            // which -- luckily -- should be the typical behavior.
-            // Still, huge potential for bugs. Perhaps rethink how `@ref`
-            // works!
-            relativeTo={ref}
+            getRelativeNode={() -> ref}
           >
             {children}
           </Positioned>

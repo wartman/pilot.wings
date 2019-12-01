@@ -15,7 +15,7 @@ enum PositionedSide {
 class Positioned extends Component {
 
   @:attribute @:optional var style:Style;
-  @:attribute var relativeTo:Node;
+  @:attribute var getRelativeNode:()->Node;
   @:attribute var children:Children;
   @:attribute var side:PositionedSide = Bottom;
   var ref:Node;
@@ -30,9 +30,9 @@ class Positioned extends Component {
   );
 
   #if js
-    @:effect(guard = relativeTo != null) function position() {
+    @:effect(guard = getRelativeNode != null && getRelativeNode() != null) function position() {
       var el = ref.toElement();
-      var parent = relativeTo.toElement();
+      var parent = getRelativeNode().toElement();
       var parentRect = parent.getBoundingClientRect();
 
       // todo: switch to Bottom if set to Top but would go off the window, and vice-versa
