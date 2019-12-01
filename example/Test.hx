@@ -95,12 +95,14 @@ class ModalTest extends Component {
         {content}
         <ul>
           <li>
-            <TextControl
-              id="set-content"
-              label="Set Content" 
-              value={content} 
-              onCommit={value -> content = value} 
-            />
+            <Form id="test" action="#" onSubmit={e -> e.preventDefault()}>
+              <TextControl
+                id="set-content"
+                label="Set Content" 
+                value={content} 
+                onCommit={value -> content = value} 
+              />
+            </Form>
           </li>
         </ul>
       </Modal>

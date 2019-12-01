@@ -30,7 +30,7 @@ class PortalProvider extends Component {
      
 class PortalTarget extends Component {
 
-  @:attribute var portals:Map<Int, Children> = [];
+  @:attribute var portals:Map<Int, Children> = new Map();
      
   public function set(id:Int, children:Children) {
     portals.set(id, children);
