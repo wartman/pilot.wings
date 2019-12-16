@@ -42,11 +42,8 @@ class PortalTarget extends Component {
     if (_pilot_context != null) _pilot_update({}, [], _pilot_context);
   }
 
-  // // Todo: <for> is broken
-  // override function render() html(<>
-  //   <for {_ => children in portals}>{children}</for>
-  // </>);
+  override function render() {
+    return html(<for {_ => children in portals}>{children}</for>);
+  }
     
-  override function render() return VFragment([ for (_ => c in portals) VFragment(c) ]);
-
 }
