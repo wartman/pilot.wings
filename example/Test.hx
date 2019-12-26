@@ -50,11 +50,7 @@ class PopoverTest extends Component {
         }
         isOpen={false}
         label={ (options) -> <>
-          @if (options.isOpen) {
-            'Close';
-          } else {
-            'Open';
-          }
+          { if (options.isOpen) 'Close' else 'Open' }
         </> }
         side={side}
       >
@@ -73,41 +69,44 @@ class ModalTest extends Component {
 
   override function render() return html(<>
     <button onClick={_ -> showModal = true}>Show Modal</button>
-    @if (showModal) {
-      <Modal 
-        requestClose={() -> {
-          trace('hiding modal');
-          showModal = false;
-        }}
-        overlayStyle@style={
-          background: rgba(0, 0, 0, 0.5);
-        }
-        modalStyle@style={
-          background: #fff;
-          padding: 1rem;
-          width: 100%;
-          max-width: 900px;          
-        }
-        position={PositionCentered}
-      >
-        <ModalHeader 
-          content={ <h2>{title}</h2> } 
-          requestClose={() -> showModal = false} 
-        />
-        {content}
-        <ul>
-          <li>
-            <Form id="test" action="#" onSubmit={e -> e.preventDefault()}>
-              <TextControl
-                id="set-content"
-                label="Set Content" 
-                value={content} 
-                onCommit={value -> content = value} 
-              />
-            </Form>
-          </li>
-        </ul>
-      </Modal>
+    { 
+      if (showModal)
+        <Modal 
+          requestClose={() -> {
+            trace('hiding modal');
+            showModal = false;
+          }}
+          overlayStyle@style={
+            background: rgba(0, 0, 0, 0.5);
+          }
+          modalStyle@style={
+            background: #fff;
+            padding: 1rem;
+            width: 100%;
+            max-width: 900px;          
+          }
+          position={PositionCentered}
+        >
+          <ModalHeader 
+            content={ <h2>{title}</h2> } 
+            requestClose={() -> showModal = false} 
+          />
+          {content}
+          <ul>
+            <li>
+              <Form id="test" action="#" onSubmit={e -> e.preventDefault()}>
+                <TextControl
+                  id="set-content"
+                  label="Set Content" 
+                  value={content} 
+                  onCommit={value -> content = value} 
+                />
+              </Form>
+            </li>
+          </ul>
+        </Modal>
+      else
+        null
     }
   </>);
 

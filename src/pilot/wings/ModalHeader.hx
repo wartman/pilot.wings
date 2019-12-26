@@ -15,11 +15,7 @@ class ModalHeader extends Component {
     <header class={style}>
       {content}
       <button onClick={_ -> requestClose()}>
-        @if (icon != null) {
-          icon;
-        } else {
-          'x';
-        }
+        { if (icon != null) icon else 'x' }
       </button>
     </header>
   );

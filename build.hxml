@@ -6,7 +6,9 @@
 -main Test
 
 -dce full
+
 -D analyzer-optimize
--D pilot-prefix=wing
 -D js-es=6
+-D pilot-markup-no-inline-control-flow
+
 -js dist/assets/test.js

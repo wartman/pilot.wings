@@ -22,19 +22,15 @@ class Popover extends Component {
       <button onClick={_ -> toggle()}>
         {label({ isOpen: isOpen })}
       </button>
-      @if (isOpen) {
-        <>
-          <Portal>
-            <Positioned
-              style={popoverStyle}
-              side={side}
-              getRelativeNode={() -> ref}
-            >
-              {children}
-            </Positioned>
-          </Portal>
-        </>;
-      }
+      { if (isOpen) <Portal>
+        <Positioned
+          style={popoverStyle}
+          side={side}
+          getRelativeNode={() -> ref}
+        >
+          {children}
+        </Positioned>
+      </Portal> else null }
     </div>
   );
 
