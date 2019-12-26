@@ -4,6 +4,7 @@ import pilot.Component;
 import pilot.VNode;
 import pilot.Children;
 import pilot.Style;
+import pilot.dom.Element;
 import pilot.wings.Positioned;
 
 class Popover extends Component {
@@ -14,24 +15,26 @@ class Popover extends Component {
   @:attribute var label:({ isOpen:Bool })->VNode;
   @:attribute var children:Children;
   @:attribute(mutable = true) var isOpen:Bool = false;
-  var ref:Node;
+  var ref:Element;
 
   override function render() return html(
-    <div @ref={node -> ref = node} class={containerStyle}>
+    <div @ref={node -> ref = cast node} class={containerStyle}>
       <button onClick={_ -> toggle()}>
         {label({ isOpen: isOpen })}
       </button>
-      <if {isOpen}>
-        <Portal>
-          <Positioned
-            style={popoverStyle}
-            side={side}
-            getRelativeNode={() -> ref}
-          >
-            {children}
-          </Positioned>
-        </Portal>
-      </if>
+      @if (isOpen) {
+        <>
+          <Portal>
+            <Positioned
+              style={popoverStyle}
+              side={side}
+              getRelativeNode={() -> ref}
+            >
+              {children}
+            </Positioned>
+          </Portal>
+        </>;
+      }
     </div>
   );
 

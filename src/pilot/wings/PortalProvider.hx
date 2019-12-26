@@ -43,7 +43,11 @@ class PortalTarget extends Component {
   }
 
   override function render() {
-    return html(<for {_ => children in portals}>{children}</for>);
+    return html(<>
+        @for (_ => children in portals) {
+          <>{children}</>;
+        }
+      </>);
   }
     
 }

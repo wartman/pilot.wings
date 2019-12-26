@@ -7,7 +7,7 @@ class Test {
 
   public static function main() {
     Pilot.mount(
-      Pilot.dom.getElementById('root'),
+      Pilot.document.getElementById('root'),
       Pilot.html(<>
         <PortalProvider>
           <ModalTest />
@@ -49,11 +49,13 @@ class PopoverTest extends Component {
           }
         }
         isOpen={false}
-        label={(options) -> Pilot.html(<if {options.isOpen}>
-          Close
-        <else>
-          Open
-        </if>)}
+        label={ (options) -> <>
+          @if (options.isOpen) {
+            'Close';
+          } else {
+            'Open';
+          }
+        </> }
         side={side}
       >
         <p>Hello world</p>
@@ -71,7 +73,7 @@ class ModalTest extends Component {
 
   override function render() return html(<>
     <button onClick={_ -> showModal = true}>Show Modal</button>
-    <if {showModal}>
+    @if (showModal) {
       <Modal 
         requestClose={() -> {
           trace('hiding modal');
@@ -89,7 +91,7 @@ class ModalTest extends Component {
         position={PositionCentered}
       >
         <ModalHeader 
-          content@html={<h2>{title}</h2>} 
+          content={ <h2>{title}</h2> } 
           requestClose={() -> showModal = false} 
         />
         {content}
@@ -106,7 +108,7 @@ class ModalTest extends Component {
           </li>
         </ul>
       </Modal>
-    </if>
+    }
   </>);
 
 }
