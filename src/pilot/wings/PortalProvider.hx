@@ -13,13 +13,13 @@ class PortalProvider extends Component {
   var target:PortalTarget;
   
   public function getTarget() {
-    if (target == null) target = new PortalTarget({}, _pilot_context);
+    if (target == null) target = new PortalTarget({}, __context);
     return target; 
   }
                                                  
   override function render() return html(<>
     {VComponent({
-      _pilot_create: (_, _) -> getTarget() 
+      __create: (_, _) -> getTarget() 
     }, {})}
     <Provider id={TARGET} value={getTarget()}>
       {children}
@@ -34,12 +34,12 @@ class PortalTarget extends Component {
      
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    if (_pilot_context != null) _pilot_update({}, [], _pilot_context);
+    if (__context != null) __update({}, [], __context);
   }
                                          
   public function remove(id:Int) {
     portals.remove(id);
-    if (_pilot_context != null) _pilot_update({}, [], _pilot_context);
+    if (__context != null) __update({}, [], __context);
   }
 
   override function render() {
