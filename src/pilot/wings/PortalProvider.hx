@@ -36,9 +36,7 @@ class PortalTarget extends Component {
      
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    trace(__nodes);
     if (__context != null) __patch({});
-    trace(__nodes);
   }
   
   public function remove(id:Int) {
