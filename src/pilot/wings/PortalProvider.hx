@@ -5,6 +5,8 @@ import pilot.Component;
 import pilot.Children;
 import pilot.VNode;
 
+using Lambda;
+
 class PortalProvider extends Component {
   
   public static final TARGET = 'PortalTarget';
@@ -34,18 +36,21 @@ class PortalTarget extends Component {
      
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    if (__context != null) __update({}, [], __context);
+    trace(__nodes);
+    if (__context != null) __patch({});
+    trace(__nodes);
   }
-                                         
+  
   public function remove(id:Int) {
     portals.remove(id);
-    if (__context != null) __update({}, [], __context);
+    if (__context != null) __patch({});
   }
 
   override function render() {
+    if (!portals.iterator().hasNext()) return null;
     return html(<>
-        { [ for (_ => children in portals) <>{children}</> ] }
-      </>);
+      { [ for (_ => children in portals) <>{children}</> ] }
+    </>);
   }
-    
+
 }

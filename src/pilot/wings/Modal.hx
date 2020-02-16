@@ -56,12 +56,14 @@ class Modal extends Component {
       if (e.key == 'Escape') requestClose();
     }
 
-    @:init inline function setup() {
+    @:init 
+    inline function setup() {
       Body.lock();
       if (closeOnEsc) js.Browser.window.addEventListener('keydown', doCloseOnEsc);
     }
 
-    @:dispose inline function cleanup() {
+    @:dispose 
+    inline function cleanup() {
       Body.unlock();
       js.Browser.window.removeEventListener('keydown', doCloseOnEsc);
     }

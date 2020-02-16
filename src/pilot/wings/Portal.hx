@@ -12,14 +12,16 @@ class Portal extends Component {
   @:attribute var children:Children;
   var id:Int = portalIds++;
   
-  @:effect function updateTarget() {
+  @:effect
+  function updateTarget() {
     target.set(id, children);
   }
   
-  @:dispose function removeFromTarget() {
+  @:dispose
+  function removeFromTarget() {
     target.remove(id);
   }
   
-  override function render() return html(<></>);
+  override function render() return null;
   
 }

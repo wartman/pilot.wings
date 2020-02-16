@@ -51,13 +51,17 @@ class Popover extends Component {
   }
         
   #if js
-    @:effect(guard = isOpen == true) function closeOnClickOff() {  
+
+    @:effect(guard = isOpen == true) 
+    function closeOnClickOff() {
       js.Browser.window.addEventListener('click', close);
     }
         
-    @:dispose function cleanup() {
+    @:dispose 
+    function cleanup() {
       js.Browser.window.removeEventListener('click', close); 
     }
+    
   #end
 
 }

@@ -64,8 +64,8 @@ class PopoverTest extends Component {
 class ModalTest extends Component {
 
   @:attribute var title:String = 'Example';
-  @:attribute(mutable = true) var showModal:Bool = false;
-  @:attribute(mutable = true) var content:String = 'Hello world';
+  @:attribute(mutable) var showModal:Bool = false;
+  @:attribute(mutable) var content:String = 'Hello world';
 
   override function render() return html(<>
     <button onClick={_ -> showModal = true}>Show Modal</button>
@@ -73,8 +73,8 @@ class ModalTest extends Component {
       if (showModal)
         <Modal 
           requestClose={() -> {
-            trace('hiding modal');
             showModal = false;
+            trace('hiding modal');
           }}
           overlayStyle@style={
             background: rgba(0, 0, 0, 0.5);
