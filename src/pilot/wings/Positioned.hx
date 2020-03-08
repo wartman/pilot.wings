@@ -20,13 +20,11 @@ class Positioned extends Component {
   @:attribute var side:PositionedSide = Bottom;
   var ref:Element;
 
-  @:style var root = '
-    position: absolute;
-    visibility:hidden;
-  ';
-
   override function render() return html(
-    <div class={root.add(style)} @ref={node -> ref = cast node}>{children}</div>
+    <div class={ css('
+      position: absolute;
+      visibility:hidden;
+    ').add(style) } @ref={node -> ref = cast node}>{children}</div>
   );
 
   @:effect(guard = getRelativeNode != null && getRelativeNode() != null) 

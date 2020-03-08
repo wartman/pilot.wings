@@ -21,24 +21,24 @@ class Test {
 
 class PopoverTest extends Component {
   
-  @:attribute(mutable = true) var side:PositionedSide = Bottom;
+  @:attribute(state) var side:PositionedSide = Bottom;
 
   override function render() return html(
-    <div class@style={
+    <div class={css('
       display: flex;
       justify-content: center;
-    }>
+    ')}>
       <button onClick={_ -> side = Top}>Top</button>
       <button onClick={_ -> side = Bottom}>Bottom</button>
       <button onClick={_ -> side = Left}>Left</button>
       <button onClick={_ -> side = Right}>Right</button>
       <Popover
-        containerStyle@style={
+        containerStyle={css('
           background: #ccc;
           width: 200px;
           height: 50px;
-        }
-        popoverStyle@style={
+        ')}
+        popoverStyle={css('
           background: #fff;
           border: 1px solid #000;
           padding: 10px;
@@ -47,7 +47,7 @@ class PopoverTest extends Component {
           p {
             margin: 0;
           }
-        }
+        ')}
         isOpen={false}
         label={ (options) -> <>
           { if (options.isOpen) 'Close' else 'Open' }
@@ -64,8 +64,8 @@ class PopoverTest extends Component {
 class ModalTest extends Component {
 
   @:attribute var title:String = 'Example';
-  @:attribute(mutable) var showModal:Bool = false;
-  @:attribute(mutable) var content:String = 'Hello world';
+  @:attribute(state) var showModal:Bool = false;
+  @:attribute(state) var content:String = 'Hello world';
 
   override function render() return html(<>
     <button onClick={_ -> showModal = true}>Show Modal</button>
@@ -76,15 +76,15 @@ class ModalTest extends Component {
             showModal = false;
             trace('hiding modal');
           }}
-          overlayStyle@style={
+          overlayStyle={css('
             background: rgba(0, 0, 0, 0.5);
-          }
-          modalStyle@style={
+          ')}
+          modalStyle={css('
             background: #fff;
             padding: 1rem;
             width: 100%;
             max-width: 900px;          
-          }
+          ')}
           position={PositionCentered}
         >
           <ModalHeader 

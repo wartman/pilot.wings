@@ -1,11 +1,9 @@
 package pilot.wings;
 
-import pilot.Provider;
 import pilot.Component;
 import pilot.Children;
 import pilot.VNode;
-
-using Lambda;
+import pilot.Provider;
 
 class PortalProvider extends Component {
   
@@ -33,15 +31,21 @@ class PortalProvider extends Component {
 class PortalTarget extends Component {
 
   @:attribute var portals:Map<Int, Children> = new Map();
-     
+   
+  @:update
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    if (__context != null) __patch({});
+    return {
+      portals: portals
+    };
   }
   
+  @:update
   public function remove(id:Int) {
     portals.remove(id);
-    if (__context != null) __patch({});
+    return {
+      portals: portals
+    };
   }
 
   override function render() {

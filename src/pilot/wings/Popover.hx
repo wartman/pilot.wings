@@ -14,7 +14,7 @@ class Popover extends Component {
   @:attribute var side:PositionedSide = Bottom;
   @:attribute var label:({ isOpen:Bool })->VNode;
   @:attribute var children:Children;
-  @:attribute(mutable = true) var isOpen:Bool = false;
+  @:attribute var isOpen:Bool = false;
   var ref:Element;
 
   override function render() return html(
@@ -39,15 +39,21 @@ class Popover extends Component {
     else open();
   }
   
+  @:update
   function open() {
-    isOpen = true;
+    return {
+      isOpen: true
+    };
   }
   
+  @:update
   function close() {
-    isOpen = false;
     #if js
       js.Browser.window.removeEventListener('click', close); 
     #end
+    return {
+      isOpen: false
+    };
   }
         
   #if js
