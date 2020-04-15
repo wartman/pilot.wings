@@ -12,9 +12,9 @@ class PortalProvider extends Component {
   @:attribute var children:Children;
   var target:PortalTarget;
   
-  public function getTarget() {
+  public function getTarget<Node>():Wire<Node, {}> {
     if (target == null) target = new PortalTarget({}, __context);
-    return target; 
+    return cast target; 
   }
                                                  
   override function render() return html(<>

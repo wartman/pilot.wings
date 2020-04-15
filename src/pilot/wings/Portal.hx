@@ -12,6 +12,9 @@ class Portal extends Component {
   @:attribute var children:Children;
   var id:Int = portalIds++;
   
+  // TODO: Because effects don't run after diffing is done anymore, the
+  //       following methods do not work.
+
   @:effect
   function updateTarget() {
     target.set(id, children);

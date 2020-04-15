@@ -32,9 +32,9 @@ class Modal extends Component {
   @:attribute var children:Children;
   @:attribute var position:ModalPosition = PositionDefault;
   @:attribute var closeOnEsc:Bool = true;
-  @:attribute @:optional var overlayStyle:Style;
-  @:attribute @:optional var modalStyle:Style;
-  @:attribute @:optional var header:VNode;
+  @:attribute(optional) var overlayStyle:Style;
+  @:attribute(optional) var modalStyle:Style;
+  @:attribute(optional) var header:VNode;
 
   override function render() return html(
     <Portal>

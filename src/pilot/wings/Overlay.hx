@@ -6,7 +6,7 @@ import pilot.Children;
 
 class Overlay extends Component {
   
-  @:attribute @:optional var style:Style;
+  @:attribute(optional) var style:Style;
   @:attribute var requestClose:()->Void;
   @:attribute var children:Children;
 

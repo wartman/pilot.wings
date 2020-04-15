@@ -6,10 +6,10 @@ import pilot.Style;
 
 class ModalHeader extends Component {
 
-  @:attribute @:optional var style:Style;
+  @:attribute(optional) var style:Style;
   @:attribute var content:VNode;
   @:attribute var requestClose:()->Void;
-  @:attribute @:optional var icon:VNode;
+  @:attribute(optional) var icon:VNode;
 
   override function render() return html(
     <header class={style}>

@@ -23,8 +23,10 @@ class Form extends Component {
   @:attribute var method:FormMethod = MethodPost;
   @:attribute var enctype:FormEnctype = EnctypeDefault;
   @:attribute var children:Children;
-  #if js
-    @:attribute @:optional var onSubmit:(e:js.html.Event)->Void;
+  #if (js && !nodejs)
+    @:attribute(optional) var onSubmit:(e:js.html.Event)->Void;
+  #else
+    @:attribute(optional) var onSubmit:(e:Dynamic)->Void;
   #end
 
   override function render() return html(
@@ -33,7 +35,7 @@ class Form extends Component {
       action={action}
       method={method}
       enctype={enctype}
-      onSubmit={onSubmit}
+      onSubmit={#if (js && !nodejs) onSubmit #else null #end}
     >
       {children}
     </form>

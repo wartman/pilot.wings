@@ -7,8 +7,14 @@
 
 -dce full
 
+--each
+
 -D analyzer-optimize
 -D js-es=6
 -D pilot-markup-no-inline-control-flow
 
 -js dist/assets/test.js
+
+--next
+
+--php dist/php

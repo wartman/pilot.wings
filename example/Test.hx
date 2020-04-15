@@ -6,15 +6,46 @@ import pilot.Component;
 class Test {
 
   public static function main() {
-    Pilot.mount(
-      Pilot.document.getElementById('root'),
-      Pilot.html(<>
-        <PortalProvider>
-          <ModalTest />
-          <PopoverTest />
-        </PortalProvider>
-      </>)
-    );
+    var body = PortalProvider.node({
+      children: [
+        ModalTest.node({}),
+        PopoverTest.node({})
+      ]
+    });
+    #if (js && !nodejs)
+      pilot.platform.dom.Dom.mount(
+        js.Browser.document.getElementById('root'),
+        body
+      );
+    #else
+      pilot.platform.server.Server.renderDocument(
+        Pilot.html(<>
+          <title>Test</title>
+          <style>
+            {pilot.StyleManager.toString()}
+          </style>
+        </>),
+        body
+      );
+    #end
+
+    // Pilot.mount(
+    //   #if (js && !nodejs)
+    //     js.Browser.document.getElementById('root'),
+    //   #else
+    //     {
+    //       var node = new pilot.platform.server.Node('div');
+    //       node.setAttribute('id', root);
+    //       node;
+    //     },
+    //   #end
+    //   Pilot.html(<>
+    //     <PortalProvider>
+    //       <ModalTest />
+    //       <PopoverTest />
+    //     </PortalProvider>
+    //   </>)
+    // );
   }
 
 }
