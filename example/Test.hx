@@ -18,7 +18,7 @@ class Test {
         body
       );
     #else
-      pilot.platform.server.Server.renderDocument(
+      var doc = pilot.platform.server.Server.renderDocument(
         Pilot.html(<>
           <title>Test</title>
           <style>
@@ -27,25 +27,8 @@ class Test {
         </>),
         body
       );
+      Sys.print(doc);
     #end
-
-    // Pilot.mount(
-    //   #if (js && !nodejs)
-    //     js.Browser.document.getElementById('root'),
-    //   #else
-    //     {
-    //       var node = new pilot.platform.server.Node('div');
-    //       node.setAttribute('id', root);
-    //       node;
-    //     },
-    //   #end
-    //   Pilot.html(<>
-    //     <PortalProvider>
-    //       <ModalTest />
-    //       <PopoverTest />
-    //     </PortalProvider>
-    //   </>)
-    // );
   }
 
 }

@@ -19,7 +19,10 @@ class Popover extends Component {
   #end
 
   override function render() return html(
-    <div @ref={node -> #if (js && !nodejs) ref = cast node #else null #end} class={containerStyle}>
+    <div 
+      class={containerStyle}
+      @ref={node -> #if (js && !nodejs) ref = cast node #else null #end}
+    >
       <button onClick={_ -> toggle()}>
         {label({ isOpen: isOpen })}
       </button>

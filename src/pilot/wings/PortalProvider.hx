@@ -7,7 +7,7 @@ import pilot.Provider;
 
 class PortalProvider extends Component {
   
-  public static final TARGET = 'PortalTarget';
+  public static final TARGET = '__pilot_wings_PortalTarget';
   
   @:attribute var children:Children;
   var target:PortalTarget;
@@ -35,17 +35,13 @@ class PortalTarget extends Component {
   @:update
   public function set(id:Int, children:Children) {
     portals.set(id, children);
-    return {
-      portals: portals
-    };
+    return { portals: portals };
   }
   
   @:update
   public function remove(id:Int) {
     portals.remove(id);
-    return {
-      portals: portals
-    };
+    return { portals: portals };
   }
 
   override function render() {
