@@ -1,6 +1,5 @@
 package pilot.wings.form;
 
-import pilot.Component;
 #if js
   import js.html.Event;
   import js.html.KeyboardEvent;

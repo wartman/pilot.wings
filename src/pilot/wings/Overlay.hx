@@ -1,9 +1,5 @@
 package pilot.wings;
 
-import pilot.Style;
-import pilot.Component;
-import pilot.Children;
-
 class Overlay extends Component {
   
   @:attribute(optional) var style:Style;

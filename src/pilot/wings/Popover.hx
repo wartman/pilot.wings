@@ -1,9 +1,5 @@
 package pilot.wings;
 
-import pilot.Component;
-import pilot.VNode;
-import pilot.Children;
-import pilot.Style;
 import pilot.wings.Positioned;
 
 class Popover extends Component {

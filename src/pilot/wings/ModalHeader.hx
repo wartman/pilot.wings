@@ -1,9 +1,5 @@
 package pilot.wings;
 
-import pilot.Component;
-import pilot.VNode;
-import pilot.Style;
-
 class ModalHeader extends Component {
 
   @:attribute(optional) var style:Style;

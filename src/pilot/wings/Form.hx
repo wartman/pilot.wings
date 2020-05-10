@@ -1,9 +1,5 @@
 package pilot.wings;
 
-import pilot.VNode;
-import pilot.Children;
-import pilot.Component;
-
 enum abstract FormMethod(String) to String {
   var MethodPost = 'post';
   var MethodGet = 'get';

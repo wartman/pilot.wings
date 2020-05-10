@@ -1,9 +1,5 @@
 package pilot.wings;
 
-import pilot.Style;
-import pilot.Component;
-import pilot.VNode;
-import pilot.Children;
 #if js
   import pilot.wings.util.Body;
 #end
