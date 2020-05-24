@@ -16,7 +16,8 @@ class PortalTarget extends Component {
   @:update
   public function set(id:Int, children:Children) {
     if (portals.exists(p -> p.id == id)) {
-      return {};
+      portals.find(p -> p.id == id).children = children;
+      return { portals: portals };
     }
     return {
       portals: portals.concat([ { id: id, children: children } ])

@@ -2,6 +2,8 @@ package pilot.wings;
 
 #if js
   import pilot.wings.util.Body;
+  
+  using pilot.Helpers;
 #end
 
 @:forward
@@ -60,7 +62,7 @@ class Modal extends Component {
 
     @:dispose 
     inline function cleanup() {
-      Body.unlock();
+      Body.unlock.later();
       js.Browser.window.removeEventListener('keydown', doCloseOnEsc);
     }
 

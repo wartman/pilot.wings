@@ -1,0 +1,17 @@
+{
+  "name": "pilot.wings",
+  "license": "MIT",
+  "tags": [
+    "ui"
+  ],
+  "contributors": [
+    "wartman"
+  ],
+  "releasenote": "Latest pilot",
+  "version": "0.2.0",
+  "url": "https://github.com/wartman/pilot.wings",
+  "classPath": "src",
+  "dependencies": {
+    "pilot": ""
+  }
+}
